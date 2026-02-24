@@ -1,0 +1,179 @@
+<%- include('partials/header') %>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-content reveal">
+      <span class="section-label">Become Us</span>
+      <h1>Join a Climate-Responsible Tourism Workforce</h1>
+      <p>Tureko is built by people who believe sustainability is not a trend — it's the only way forward. If you share that belief and carry the expertise to act on it, we want to hear from you.</p>
+    </div>
+  </div>
+</section>
+
+<section class="careers-why">
+  <div class="container">
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M12 12C12 7 7 4 2 5c0 5 3 9 10 7M12 12c0-5 5-8 10-7-1 5-4 9-10 7"/></svg>
+        </div>
+        <h3>Purpose-Driven Work</h3>
+        <p>Every placement and project we undertake contributes directly to measurable environmental outcomes and a healthier planet.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+        </div>
+        <h3>Growing Field</h3>
+        <p>Green careers are among the fastest-growing globally. At Tureko, you're positioned at the forefront of a transforming industry.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <h3>Diverse Placements</h3>
+        <p>We work across restaurants, resorts, tourism bodies, and enterprises — offering rich, varied placement opportunities.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>
+        </div>
+        <h3>Expert Network</h3>
+        <p>Join a network of sustainability professionals committed to collaboration, continuous learning, and climate leadership.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="form-section">
+  <div class="container">
+    <div class="form-layout">
+      <div class="form-sidebar reveal">
+        <h3>Open Positions</h3>
+        <% const positions = [
+          'Eco-Chef', 'Sustainability Officer', 'Eco-Tour Guide',
+          'Environmental Compliance Manager', 'Green Operations Consultant',
+          'Climate Program Coordinator', 'Waste Management Specialist',
+          'ESG Reporting Officer', 'Sustainable Procurement Specialist'
+        ] %>
+        <% positions.forEach(pos => { %>
+        <div class="position-item">
+          <span class="position-dot"></span>
+          <span><%= pos %></span>
+        </div>
+        <% }) %>
+        <div class="sidebar-note" style="margin-top: 32px;">
+          <p><span class="note-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M12 12C12 7 7 4 2 5c0 5 3 9 10 7M12 12c0-5 5-8 10-7-1 5-4 9-10 7"/></svg></span> Tureko is an equal opportunity employer committed to climate-responsible hiring practices.</p>
+        </div>
+      </div>
+
+      <div class="form-card reveal reveal-delay">
+        <% if (success) { %>
+        <div class="success-message">
+          <div class="success-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>Application Received</h3>
+          <p>Thank you for applying to join the Tureko team. We've received your application and resume. Our team will review your profile and reach out within 5–7 business days if your qualifications align with our current openings.</p>
+          <a href="/" class="btn-primary" style="margin-top: 24px; display: inline-block;">Return to Home</a>
+        </div>
+        <% } else { %>
+
+        <% if (errors.length > 0) { %>
+        <div class="error-banner">
+          <strong>Please fix the following errors:</strong>
+          <ul>
+            <% errors.forEach(e => { %><li><%= e.msg %></li><% }) %>
+          </ul>
+        </div>
+        <% } %>
+
+        <form action="/careers" method="POST" enctype="multipart/form-data" id="careersForm" novalidate>
+          <div class="form-grid">
+            <div class="form-group required">
+              <label for="fullName">Full Name <span class="required-star">*</span></label>
+              <input type="text" id="fullName" name="fullName" value="<%= formData.fullName || '' %>" placeholder="Your full name" required />
+            </div>
+            <div class="form-group required">
+              <label for="email">Email Address <span class="required-star">*</span></label>
+              <input type="email" id="email" name="email" value="<%= formData.email || '' %>" placeholder="your@email.com" required />
+            </div>
+            <div class="form-group required">
+              <label for="contactNumber">Contact Number <span class="required-star">*</span></label>
+              <input type="tel" id="contactNumber" name="contactNumber" value="<%= formData.contactNumber || '' %>" placeholder="+1 234 567 890" required />
+            </div>
+            <div class="form-group required">
+              <label for="location">Location <span class="required-star">*</span></label>
+              <input type="text" id="location" name="location" value="<%= formData.location || '' %>" placeholder="City, Country" required />
+            </div>
+            <div class="form-group full-width required">
+              <label for="position">Position Applying For <span class="required-star">*</span></label>
+              <select id="position" name="position" required>
+                <option value="">Select a position</option>
+                <% positionOptions.forEach(opt => { %>
+                <option value="<%= opt %>" <%= formData.position === opt ? 'selected' : '' %>><%= opt %></option>
+                <% }) %>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group full-width required">
+            <label for="skillsAndExperience">Skills and Experience <span class="required-star">*</span></label>
+            <textarea id="skillsAndExperience" name="skillsAndExperience" rows="5" placeholder="Describe your relevant skills, certifications, and professional experience in sustainability, hospitality, or your area of expertise..." required><%= formData.skillsAndExperience || '' %></textarea>
+          </div>
+
+          <div class="form-group full-width">
+            <label class="form-label-block">Do you have prior sustainability experience? <span class="required-star">*</span></label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="hasSustainabilityExperience" value="yes" <%= formData.hasSustainabilityExperience === 'yes' ? 'checked' : '' %> id="expYes" />
+                <span>Yes</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="hasSustainabilityExperience" value="no" <%= formData.hasSustainabilityExperience === 'no' ? 'checked' : '' %> id="expNo" />
+                <span>No</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group full-width" id="sustainExplanationGroup" style="display: none;">
+            <label for="sustainabilityExplanation">Please describe your sustainability experience</label>
+            <textarea id="sustainabilityExplanation" name="sustainabilityExplanation" rows="4" placeholder="Describe your sustainability projects, roles, certifications, or initiatives..."><%= formData.sustainabilityExplanation || '' %></textarea>
+          </div>
+
+          <div class="form-group full-width required">
+            <label for="resume">Resume / CV <span class="required-star">*</span> <span class="field-hint">(PDF only, max 2MB)</span></label>
+            <div class="file-upload-wrapper" id="fileUploadWrapper">
+              <input type="file" id="resume" name="resume" accept=".pdf" required />
+              <div class="file-upload-ui">
+                <div class="file-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+              </div>
+                <div class="file-text">
+                  <strong id="fileLabel">Choose PDF file</strong>
+                  <span>or drag and drop here</span>
+                </div>
+              </div>
+            </div>
+            <div id="fileInfo" class="file-info" style="display:none;"></div>
+          </div>
+
+          <div class="form-group full-width">
+            <label class="checkbox-label agree-label">
+              <input type="checkbox" name="agreeCode" id="agreeCode" value="on" <%= formData.agreeCode === 'on' ? 'checked' : '' %> required />
+              <span>I agree to Tureko's Environmental Code of Conduct and affirm that the information provided is accurate. <span class="required-star">*</span></span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn-submit" id="careersSubmit">
+            <span>Submit Application</span>
+            <div class="btn-loader" style="display:none;"></div>
+          </button>
+        </form>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

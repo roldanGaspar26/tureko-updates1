@@ -1,0 +1,63 @@
+<%- include('partials/header') %>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-content reveal">
+      <span class="section-label">What We Offer</span>
+      <h1>Our Services</h1>
+      <p>Five integrated advisory divisions. Forty-five specialized services. One purpose - to make sustainability the foundation of your business.</p>
+    </div>
+  </div>
+</section>
+
+<section class="services-nav-bar">
+  <div class="container">
+    <div class="services-nav-links">
+      <% services.forEach(cat => { %>
+        <a href="#<%= cat.id %>" class="svc-nav-link"><%= cat.letter %>. <%= cat.category %></a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<div class="services-page">
+  <% services.forEach((cat, catIdx) => { %>
+  <section class="service-category" id="<%= cat.id %>">
+    <div class="container">
+      <div class="category-header reveal">
+        <div class="cat-letter"><%= cat.letter %></div>
+        <div class="cat-info">
+          <span class="section-label">Division <%= cat.letter %></span>
+          <h2><%= cat.category %></h2>
+        </div>
+      </div>
+      <div class="services-grid">
+        <% cat.items.forEach((item, i) => { %>
+        <div class="service-card reveal" style="--delay: <%= i * 50 %>ms">
+          <div class="service-card-num"><%= String(i + 1).padStart(2, '0') %></div>
+          <h3><%= item.name %></h3>
+          <p><%= item.description %></p>
+          <a href="/quote" class="service-card-cta">Inquire →</a>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+  <% }) %>
+</div>
+
+<section class="section cta-section">
+  <div class="container">
+    <div class="cta-inner reveal">
+      <span class="section-label">Get Started</span>
+      <h2>Need a Custom Sustainability Strategy?</h2>
+      <p>Every business is unique. Contact Tureko and we'll design a service package aligned with your specific environmental goals, operational reality, and industry context.</p>
+      <div class="cta-actions">
+        <a href="/quote" class="btn-primary">Request a Quote</a>
+        <a href="/careers" class="btn-outline">Join Our Team</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

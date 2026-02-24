@@ -1,0 +1,171 @@
+<%- include('partials/header') %>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-content reveal">
+      <span class="section-label">Work With Us</span>
+      <h1>Request a Quote</h1>
+      <p>Tell us about your business and sustainability goals. Our team will review your inquiry and respond with a tailored proposal within 2–3 business days.</p>
+    </div>
+  </div>
+</section>
+
+<section class="form-section">
+  <div class="container">
+    <div class="form-layout">
+      <div class="form-sidebar reveal">
+        <h3>What to Expect</h3>
+        <div class="expect-item">
+          <div class="expect-num">01</div>
+          <div>
+            <strong>Submit Your Inquiry</strong>
+            <p>Fill in your business details and the services you're interested in.</p>
+          </div>
+        </div>
+        <div class="expect-item">
+          <div class="expect-num">02</div>
+          <div>
+            <strong>Initial Review</strong>
+            <p>Our sustainability advisors review your needs and assess fit within 48 hours.</p>
+          </div>
+        </div>
+        <div class="expect-item">
+          <div class="expect-num">03</div>
+          <div>
+            <strong>Proposal & Discovery Call</strong>
+            <p>We'll send a tailored proposal and schedule a discovery call with your team.</p>
+          </div>
+        </div>
+        <div class="sidebar-note">
+          <p><span class="note-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M12 12C12 7 7 4 2 5c0 5 3 9 10 7M12 12c0-5 5-8 10-7-1 5-4 9-10 7"/></svg></span> All inquiries are handled with full confidentiality by our advisory team.</p>
+        </div>
+      </div>
+
+      <div class="form-card reveal reveal-delay">
+        <% if (success) { %>
+        <div class="success-message">
+          <div class="success-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>Quote Request Received</h3>
+          <p>Thank you for reaching out to Tureko. Our sustainability advisors will review your inquiry and contact you within 2–3 business days with a tailored proposal.</p>
+          <a href="/" class="btn-primary" style="margin-top: 24px; display: inline-block;">Return to Home</a>
+        </div>
+        <% } else { %>
+
+        <% if (errors.length > 0) { %>
+        <div class="error-banner">
+          <strong>Please fix the following errors:</strong>
+          <ul>
+            <% errors.forEach(e => { %><li><%= e.msg %></li><% }) %>
+          </ul>
+        </div>
+        <% } %>
+
+        <form action="/quote" method="POST" id="quoteForm" novalidate>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="businessName">Business Name <span class="optional">(optional)</span></label>
+              <input type="text" id="businessName" name="businessName" value="<%= formData.businessName || '' %>" placeholder="Your business name" />
+            </div>
+            <div class="form-group required">
+              <label for="contactPerson">Contact Person <span class="required-star">*</span></label>
+              <input type="text" id="contactPerson" name="contactPerson" value="<%= formData.contactPerson || '' %>" placeholder="Your full name" required />
+            </div>
+            <div class="form-group required">
+              <label for="email">Email Address <span class="required-star">*</span></label>
+              <input type="email" id="email" name="email" value="<%= formData.email || '' %>" placeholder="your@email.com" required />
+            </div>
+            <div class="form-group required">
+              <label for="phone">Phone Number <span class="required-star">*</span></label>
+              <input type="tel" id="phone" name="phone" value="<%= formData.phone || '' %>" placeholder="+1 234 567 890" required />
+            </div>
+            <div class="form-group required">
+              <label for="businessType">Business Type <span class="required-star">*</span></label>
+              <select id="businessType" name="businessType" required>
+                <option value="">Select business type</option>
+                <option value="Restaurant" <%= formData.businessType === 'Restaurant' ? 'selected' : '' %>>Restaurant</option>
+                <option value="Resort" <%= formData.businessType === 'Resort' ? 'selected' : '' %>>Resort</option>
+                <option value="Tourist Spot" <%= formData.businessType === 'Tourist Spot' ? 'selected' : '' %>>Tourist Spot</option>
+                <option value="Hotel" <%= formData.businessType === 'Hotel' ? 'selected' : '' %>>Hotel</option>
+                <option value="Tour Operator" <%= formData.businessType === 'Tour Operator' ? 'selected' : '' %>>Tour Operator</option>
+                <option value="Café / Food Business" <%= formData.businessType === 'Café / Food Business' ? 'selected' : '' %>>Café / Food Business</option>
+                <option value="Corporate Enterprise" <%= formData.businessType === 'Corporate Enterprise' ? 'selected' : '' %>>Corporate Enterprise</option>
+                <option value="NGO / Non-Profit" <%= formData.businessType === 'NGO / Non-Profit' ? 'selected' : '' %>>NGO / Non-Profit</option>
+                <option value="Government Entity" <%= formData.businessType === 'Government Entity' ? 'selected' : '' %>>Government Entity</option>
+                <option value="Other" <%= formData.businessType === 'Other' ? 'selected' : '' %>>Other</option>
+              </select>
+            </div>
+            <div class="form-group required">
+              <label for="location">Location <span class="required-star">*</span></label>
+              <input type="text" id="location" name="location" value="<%= formData.location || '' %>" placeholder="City, Country" required />
+            </div>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Services Needed</label>
+            <div class="checkbox-grid" id="servicesGrid">
+              <% const allServices = [
+                'Sustainability Audit', 'Carbon Footprint Assessment', 'ESG Strategy Development',
+                'Climate Risk Assessment', 'Environmental Compliance Advisory', 'Sustainable Business Model Transformation',
+                'Climate Adaptation Strategy', 'Zero-Waste Kitchen Design', 'Sustainable Sourcing Strategy',
+                'Energy Efficiency Optimization', 'Water Conservation Systems', 'Eco-Friendly Packaging Transition',
+                'Green Menu Engineering', 'Chef Sustainability Training', 'Food Waste Monitoring',
+                'Circular Kitchen Workflow', 'Eco-Tour Program Development', 'Responsible Tourism Certification',
+                'Community-Based Tourism Planning', 'Environmental Impact Minimization', 'Sustainable Resort Operations',
+                'Wildlife Protection Strategy', 'Eco-Infrastructure Planning', 'Sustainable Accommodation Design',
+                'Community Partnership Integration', 'Eco-Chef Placement', 'Sustainability Officer Placement',
+                'Eco-Tour Guide Placement', 'Compliance Manager Placement', 'Green Operations Consultant Placement',
+                'Climate Coordinator Placement', 'Waste Specialist Placement', 'ESG Reporting Officer Placement',
+                'Procurement Specialist Placement', 'Net-Zero Planning', 'Waste Management Program Design',
+                'Circular Economy Strategy', 'Environmental Code of Conduct', 'Climate Workshops & Training',
+                'Sustainability KPI Development', 'Green Operations Policy', 'Impact Measurement & Reporting',
+                'Sustainable Supply Chain'
+              ] %>
+              <% const selectedServices = Array.isArray(formData.servicesNeeded) ? formData.servicesNeeded : (formData.servicesNeeded ? [formData.servicesNeeded] : []) %>
+              <% allServices.forEach(svc => { %>
+              <label class="checkbox-label">
+                <input type="checkbox" name="servicesNeeded" value="<%= svc %>" <%= selectedServices.includes(svc) ? 'checked' : '' %> />
+                <span><%= svc %></span>
+              </label>
+              <% }) %>
+            </div>
+            <button type="button" class="services-toggle-btn" id="servicesToggle">
+              <svg id="toggleIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              <span id="toggleLabel">View All Services</span>
+            </button>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="workforceNeeded">Workforce Needed</label>
+              <select id="workforceNeeded" name="workforceNeeded">
+                <option value="">Select (if applicable)</option>
+                <% workforceOptions.forEach(opt => { %>
+                <option value="<%= opt %>" <%= formData.workforceNeeded === opt ? 'selected' : '' %>><%= opt %></option>
+                <% }) %>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="preferredStartDate">Preferred Start Date</label>
+              <input type="date" id="preferredStartDate" name="preferredStartDate" value="<%= formData.preferredStartDate || '' %>" />
+            </div>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="message">Message / Project Description</label>
+            <textarea id="message" name="message" rows="5" placeholder="Describe your project, sustainability goals, or any specific challenges you're facing..."><%= formData.message || '' %></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit" id="quoteSubmit">
+            <span>Submit Quote Request</span>
+            <div class="btn-loader" style="display:none;"></div>
+          </button>
+        </form>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /quotes/{docId} {
+      allow create: if true;
+      allow read, update, delete: if false;
+    }
+
+    match /applications/{docId} {
+      allow create: if true;
+      allow read, update, delete: if false;
+    }
+  }
+}
