@@ -34,62 +34,6 @@ npm run dev
 
 ---
 
-## ⚙️ Environment Variables
-
-| Variable | Description |
-|---|---|
-| `PORT` | Server port (default: 3000) |
-| `NODE_ENV` | `production` or `development` |
-| `FIREBASE_PROJECT_ID` | Firebase project ID |
-| `FIREBASE_PRIVATE_KEY_ID` | Service account private key ID |
-| `FIREBASE_PRIVATE_KEY` | Service account private key (with `\n`) |
-| `FIREBASE_CLIENT_EMAIL` | Service account email |
-| `FIREBASE_CLIENT_ID` | Service account client ID |
-| `FIREBASE_STORAGE_BUCKET` | Firebase Storage bucket name |
-| `EMAIL_USER` | Gmail address for sending notifications |
-| `EMAIL_PASS` | Gmail App Password (not your login password) |
-| `EMAIL_TO` | Email address to receive notifications |
-
----
-
-## 🔥 Firebase Setup
-
-### 1. Create Firebase Project
-- Go to [console.firebase.google.com](https://console.firebase.google.com)
-- Create a new project
-- Enable **Firestore Database** (production mode)
-- Enable **Firebase Storage**
-
-### 2. Service Account
-- Go to Project Settings → Service Accounts
-- Click "Generate new private key"
-- Copy values into your `.env` file
-
-### 3. Deploy Firestore Rules
-```bash
-firebase deploy --only firestore:rules
-```
-
-### 4. Deploy Storage Rules
-```bash
-firebase deploy --only storage
-```
-
-### Firestore Collections
-- `quotes` — Quote form submissions
-- `applications` — Career applications
-
----
-
-## 📧 Gmail Setup
-
-1. Enable 2-Factor Authentication on your Gmail account
-2. Go to Google Account → Security → App Passwords
-3. Generate an App Password for "Mail"
-4. Use that App Password as `EMAIL_PASS` in `.env`
-
----
-
 ## 🏗️ Project Structure
 
 ```
@@ -142,17 +86,6 @@ tureko/
 
 ---
 
-## 🌐 Deploying to Render
-
-1. Push your code to GitHub (ensure `.env` is in `.gitignore`)
-2. Create a new **Web Service** on [render.com](https://render.com)
-3. Set **Build Command**: `npm install`
-4. Set **Start Command**: `npm start`
-5. Add all environment variables in Render's dashboard
-6. Deploy!
-
----
-
 ## 📄 Pages
 
 | Route | Description |
@@ -174,4 +107,4 @@ tureko/
 
 ---
 
-Built with ❤️ for a climate-responsible future.
+Built with ❤️ for a climate-responsible future by Tino!
