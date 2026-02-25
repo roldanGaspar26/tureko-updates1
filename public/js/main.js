@@ -5,8 +5,48 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   // =====================
-  // INTRO OVERLAY
+  // CUSTOM CURSOR DOT
   // =====================
+  const dot = document.createElement('div');
+  dot.className = 'cursor-dot';
+  document.body.appendChild(dot);
+  document.addEventListener('mousemove', e => {
+    dot.style.left = e.clientX + 'px';
+    dot.style.top  = e.clientY + 'px';
+    dot.style.opacity = '1';
+  });
+  document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; });
+
+  // =====================
+  // STAT COUNTER
+  // =====================
+  function animateCounter(el) {
+    const target = el.getAttribute('data-target');
+    if (!target) return;
+    const suffix = target.replace(/[0-9]/g, '');
+    const num    = parseInt(target);
+    const dur    = 1800;
+    const start  = performance.now();
+    function step(now) {
+      const p = Math.min((now - start) / dur, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(ease * num) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  const statNums = document.querySelectorAll('.stat-num[data-target]');
+  if (statNums.length) {
+    const statObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { animateCounter(e.target); statObs.unobserve(e.target); }
+      });
+    }, { threshold: 0.5 });
+    statNums.forEach(el => statObs.observe(el));
+  }
+
+
   const overlay = document.getElementById('intro-overlay');
   if (overlay) {
     const seen = sessionStorage.getItem('tureko_intro_seen');
