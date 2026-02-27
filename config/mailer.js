@@ -13,7 +13,16 @@ function createTransporter() {
   });
 }
 
+function emailConfigured() {
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS || !process.env.EMAIL_TO) {
+    console.warn('[Mailer] EMAIL_USER, EMAIL_PASS, or EMAIL_TO is not set in .env — skipping email notification.');
+    return false;
+  }
+  return true;
+}
+
 async function sendQuoteNotification(data) {
+  if (!emailConfigured()) return;
   const transporter = createTransporter();
   const servicesText = Array.isArray(data.servicesNeeded)
     ? data.servicesNeeded.join(', ')
@@ -47,6 +56,7 @@ async function sendQuoteNotification(data) {
 }
 
 async function sendApplicationNotification(data) {
+  if (!emailConfigured()) return;
   const transporter = createTransporter();
 
   const html = `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;">
