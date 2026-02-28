@@ -9,15 +9,15 @@ module.exports = {
             colors: {
                 // Primary Design System – globally interconnected across every button & component
                 green: {
-                    DEFAULT: '#10b981', // Emerald 500
-                    light: '#34d399', // Emerald 400
-                    pale: '#d1fae5', // Emerald 100
-                    dark: '#047857', // Emerald 700
+                    DEFAULT: '#005F02', // Deep forest green
+                    light: '#427A43', // Soft muted green
+                    pale: '#F2E3BB', // Cream/Sand
+                    dark: '#004001', // Even deeper green for active states
                 },
-                forest: '#064e3b',
-                earth: '#022c22',
-                sage: '#6ee7b7',
-                mint: '#a7f3d0',
+                forest: '#003301',
+                earth: '#427A43',
+                sage: '#C0B87A',
+                mint: '#F2E3BB',
                 // Neutrals
                 surface: '#fafafa',
                 card: '#ffffff',
@@ -25,10 +25,10 @@ module.exports = {
                 muted: '#757575',
                 // Dark palette
                 dark: {
-                    bg: '#020604', // Very deep subtle green-tinted black
-                    surface: '#06110a', // Slightly lighter 
-                    card: '#08170e', // Card background 
-                    border: '#153221', // subtle border
+                    bg: '#040b06', // Very deep green-tinted black
+                    surface: '#09150d', // Elevated dark surface
+                    card: '#0c1a11', // Card background
+                    border: '#213a29', // subtle border matching new theme
                 },
             },
             fontFamily: {
@@ -79,14 +79,14 @@ module.exports = {
                 xs: '2px',
             },
             boxShadow: {
-                'card': '0 4px 20px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.06)',
-                'card-hover': '0 12px 40px rgba(0,0,0,0.25)',
-                'nav': '0 4px 30px rgba(0,0,0,0.4)',
-                'glow': '0 0 40px rgba(16,185,129,0.15)',
-                'btn': '0 6px 16px rgba(4,120,87,0.3)',
-                'btn-primary-hover': '0 8px 24px rgba(16,185,129,0.35)',
-                'btn-outline-hover': '0 8px 24px rgba(255,255,255,0.05)',
-                'btn-white-hover': '0 8px 24px rgba(255,255,255,0.15)',
+                'card': '0 4px 30px rgba(0,0,0,0.2), 0 1px 3px rgba(0,0,0,0.1)',
+                'card-hover': '0 12px 60px rgba(0,0,0,0.4)',
+                'nav': '0 4px 40px rgba(0,0,0,0.6)',
+                'glow': '0 0 50px rgba(0, 95, 2, 0.2)', // using #005F02
+                'btn': '0 6px 20px rgba(0, 64, 1, 0.4)', // using green.dark
+                'btn-primary-hover': '0 8px 30px rgba(0, 95, 2, 0.4)',
+                'btn-outline-hover': '0 8px 30px rgba(255,255,255,0.1)',
+                'btn-white-hover': '0 8px 30px rgba(255,255,255,0.2)',
             },
         },
     },

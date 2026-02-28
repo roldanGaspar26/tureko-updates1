@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.body.appendChild(dot);
   document.addEventListener('mousemove', e => {
     dot.style.left = e.clientX + 'px';
-    dot.style.top  = e.clientY + 'px';
+    dot.style.top = e.clientY + 'px';
     dot.style.opacity = '1';
   });
   document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; });
@@ -24,9 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const target = el.getAttribute('data-target');
     if (!target) return;
     const suffix = target.replace(/[0-9]/g, '');
-    const num    = parseInt(target);
-    const dur    = 1800;
-    const start  = performance.now();
+    const num = parseInt(target);
+    const dur = 1800;
+    const start = performance.now();
     function step(now) {
       const p = Math.min((now - start) / dur, 1);
       const ease = 1 - Math.pow(1 - p, 3);
@@ -115,6 +115,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
     reveals.forEach(el => observer.observe(el));
+  }
+
+  // =====================
+  // ADVANCED PARALLAX
+  // =====================
+  const parallaxLayers = document.querySelectorAll('.parallax-layer');
+  if (parallaxLayers.length) {
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          parallaxLayers.forEach(layer => {
+            const speed = parseFloat(layer.getAttribute('data-speed')) || 0;
+            // Only apply transform if within top portion of window to save performance
+            if (scrollY < window.innerHeight * 1.5) {
+              layer.style.transform = `translateY(${scrollY * speed}px)`;
+            }
+          });
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
   }
 
   // =====================

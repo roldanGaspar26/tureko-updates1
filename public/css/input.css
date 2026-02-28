@@ -157,11 +157,11 @@
 
     /* ── BUTTONS (unified, interconnected) ── */
     .btn-primary {
-        @apply inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl font-semibold text-sm bg-green text-white hover:bg-green-light hover:-translate-y-0.5 shadow-btn hover:shadow-btn-primary-hover transition-all duration-300 ease-out no-underline;
+        @apply inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl font-semibold text-sm bg-green text-white hover:bg-green-light hover:-translate-y-1 shadow-btn hover:shadow-btn-primary-hover transition-all duration-300 ease-out no-underline;
     }
 
     .btn-outline {
-        @apply inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl font-semibold text-sm border border-white/20 text-white hover:bg-white/10 hover:-translate-y-0.5 hover:border-white/40 shadow-btn hover:shadow-btn-outline-hover transition-all duration-300 ease-out no-underline;
+        @apply inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl font-semibold text-sm border border-white/20 text-white hover:bg-white/10 hover:-translate-y-1 hover:border-white/40 shadow-btn hover:shadow-btn-outline-hover transition-all duration-300 ease-out no-underline;
     }
 
     .btn-white {
@@ -169,7 +169,7 @@
     }
 
     .btn-submit {
-        @apply w-full flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-bold text-sm bg-green text-white hover:bg-green-light hover:-translate-y-0.5 shadow-btn hover:shadow-btn-primary-hover transition-all duration-300 ease-out cursor-pointer border-0;
+        @apply w-full flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-semibold text-sm bg-green text-white hover:bg-green-light hover:-translate-y-1 shadow-btn hover:shadow-btn-primary-hover transition-all duration-300 ease-out cursor-pointer border-0;
     }
 
     /* ── SECTION / CONTAINER ── */
@@ -219,34 +219,228 @@
         transition-delay: 120ms;
     }
 
-    /* ── HERO ── */
-    .hero {
-        @apply relative min-h-screen flex items-center overflow-hidden pt-24 pb-16;
-        background: radial-gradient(ellipse 70% 60% at 50% -20%, rgba(16, 185, 129, 0.15), transparent 70%), #020604;
+    /* ── ADVANCED PARALLAX HERO ── */
+    .hero-advanced {
+        @apply relative min-h-screen flex items-center overflow-hidden pt-28 pb-20;
+        background: #050d0d;
+        isolation: isolate;
+    }
+
+    /* Blurred hero image — sits behind everything as a soft atmospheric BG */
+    .hero-advanced::before {
+        content: '';
+        position: absolute;
+        inset: -40px;
+        /* expand beyond bounds so blur edge doesn't show */
+        background-image: url('/images/hero.png');
+        background-size: cover;
+        background-position: center 30%;
+        filter: blur(60px) saturate(1.4) brightness(0.35);
+        z-index: -2;
+        transform: scale(1.1);
+        /* prevent blurred edge fringing */
+    }
+
+    /* Dark teal vignette overlay — deepens edges and boosts text contrast */
+    .hero-advanced::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(ellipse 100% 60% at 50% 0%, rgba(5, 13, 13, 0.3) 0%, transparent 70%),
+            radial-gradient(ellipse 80% 80% at 50% 100%, rgba(5, 13, 13, 0.7) 0%, transparent 80%),
+            linear-gradient(180deg, rgba(5, 13, 13, 0.35) 0%, transparent 40%, rgba(5, 13, 13, 0.55) 100%);
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    /* Massive Background Typography */
+    .hero-bg-typo {
+        @apply absolute top-1/4 left-0 w-full text-center pointer-events-none z-0;
+        font-size: clamp(10rem, 25vw, 25rem);
+        font-weight: 900;
+        line-height: 0.8;
+        letter-spacing: -0.05em;
+        color: transparent;
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.03);
+        transform-origin: center;
+        white-space: nowrap;
     }
 
     .hero-bg {
-        @apply absolute inset-0 overflow-hidden pointer-events-none;
+        @apply absolute inset-0 overflow-hidden pointer-events-none mix-blend-screen;
+        z-index: 0;
     }
 
     .hero-orb {
-        @apply absolute rounded-full blur-3xl opacity-20;
+        @apply absolute rounded-full pointer-events-none;
+        filter: blur(90px);
+        opacity: 0.20;
     }
 
+    /* Ocean teal accent — subtle warmth boost on left */
     .hero-orb-1 {
-        @apply w-96 h-96 bg-green top-10 -left-20;
-        animation: float1 12s ease-in-out infinite;
+        width: 600px;
+        height: 600px;
+        background: #2ab8c0;
+        top: -80px;
+        left: -180px;
+        animation: float1 15s ease-in-out infinite alternate;
     }
 
+    /* Aqua turquoise — right side glow matching shallow reef water */
     .hero-orb-2 {
-        @apply w-72 h-72 bg-sage top-1/2 right-10;
-        animation: float2 16s ease-in-out infinite;
+        width: 500px;
+        height: 500px;
+        background: #39d4d0;
+        top: 35%;
+        right: -150px;
+        animation: float2 20s ease-in-out infinite alternate;
     }
 
+    /* Sandy beige — bottom glow fading warmth like the beach */
     .hero-orb-3 {
-        @apply w-56 h-56 bg-green-light bottom-20 left-1/3;
-        animation: float3 10s ease-in-out infinite;
+        width: 420px;
+        height: 420px;
+        background: #c9a87a;
+        bottom: -80px;
+        left: 28%;
+        opacity: 0.10;
+        animation: float3 18s ease-in-out infinite alternate;
     }
+
+    /* Forest teal — mid center depth accent */
+    .hero-orb-4 {
+        width: 340px;
+        height: 340px;
+        background: #1a7a6b;
+        top: 25%;
+        left: 38%;
+        opacity: 0.14;
+        animation: float1 22s ease-in-out infinite alternate-reverse;
+    }
+
+    /* Cutout Text Badge */
+    .cutout-badge {
+        @apply inline-flex relative p-3 overflow-hidden rounded-lg self-start;
+    }
+
+    .cutout-badge::after {
+        content: '';
+        @apply absolute inset-0 bg-sage blur-md opacity-20;
+    }
+
+    .cutout-badge span {
+        @apply text-sage;
+    }
+
+    /* Masked / Cutout Title */
+    .hero-title-cutout {
+        @apply text-6xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-[-0.04em] uppercase;
+    }
+
+    .text-outline {
+        color: transparent;
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.8);
+        transition: -webkit-text-stroke-color 0.4s ease;
+    }
+
+    .text-outline:hover {
+        -webkit-text-stroke-color: #00f28f;
+        /* fallback */
+        @apply text-sage;
+        -webkit-text-stroke-color: transparent;
+    }
+
+    .text-outline:hover {
+        @apply text-green;
+        -webkit-text-stroke-color: transparent;
+    }
+
+    /* High-End Button Effect */
+    .btn-primary-cutout {
+        @apply relative inline-flex items-center justify-center px-8 py-4 overflow-hidden font-bold text-white tracking-wide uppercase text-sm rounded-full bg-green hover:-translate-y-1 shadow-glow transition-transform duration-300;
+    }
+
+    .btn-hover-effect::before {
+        content: '';
+        @apply absolute top-0 left-0 w-full h-full bg-green-light origin-left rounded-full transition-transform duration-500 ease-smooth;
+        transform: scaleX(0);
+    }
+
+    .btn-hover-effect:hover::before {
+        transform: scaleX(1);
+    }
+
+    /* Custom Frame mask */
+    .cutout-frame-wrapper {
+        @apply relative z-10;
+        border-radius: 200px 200px 32px 32px;
+        /* Gold/amber metallic border — matches reference image warm frame */
+        box-shadow:
+            0 50px 100px rgba(0, 0, 0, 0.75),
+            /* deep outer shadow */
+            0 0 0 2px rgba(193, 155, 74, 0.70),
+            /* gold border ring */
+            0 0 0 5px rgba(193, 155, 74, 0.12),
+            /* soft outer glow */
+            0 0 50px rgba(193, 155, 74, 0.20),
+            /* warm gold ambient halo */
+            inset 0 0 0 1px rgba(255, 220, 120, 0.10);
+        /* inner highlight */
+        background: linear-gradient(150deg, rgba(193, 155, 74, 0.06), rgba(0, 0, 0, 0.2));
+        /* Force masking of the inner parallax image to match rounding */
+        overflow: hidden;
+        isolation: isolate;
+        -webkit-mask-image: -webkit-radial-gradient(white, black);
+        transition: box-shadow 0.5s ease;
+    }
+
+    .cutout-frame-wrapper:hover {
+        box-shadow:
+            0 50px 100px rgba(0, 0, 0, 0.75),
+            0 0 0 2px rgba(220, 180, 90, 0.85),
+            /* brighter gold on hover */
+            0 0 0 6px rgba(220, 180, 90, 0.18),
+            0 0 70px rgba(193, 155, 74, 0.30),
+            inset 0 0 0 1px rgba(255, 220, 120, 0.15);
+    }
+
+    .scroll-line-adv {
+        animation: trackFade 2s infinite;
+    }
+
+    .scroll-line-progress {
+        animation: trackDrop 2s ease-in-out infinite;
+    }
+
+    @keyframes trackDrop {
+        0% {
+            transform: translateY(-100%);
+        }
+
+        50% {
+            transform: translateY(0%);
+        }
+
+        100% {
+            transform: translateY(100%);
+        }
+    }
+
+    @keyframes trackFade {
+
+        0%,
+        100% {
+            opacity: 0.3;
+        }
+
+        50% {
+            opacity: 1;
+        }
+    }
+
+    /* Fallback older hero cleanup (can remove if old is fully replaced) */
 
     @keyframes float1 {
 
@@ -364,21 +558,59 @@
 
     /* ── TRUST MARQUEE ── */
     .trust-strip {
-        @apply overflow-hidden border-y border-dark-border py-4 bg-dark-surface;
+        @apply overflow-hidden border-y border-green/15 py-6 bg-[#040b06] relative;
+        box-shadow: inset 0 0 60px rgba(16, 185, 129, 0.08);
+    }
+
+    .trust-strip::before,
+    .trust-strip::after {
+        content: '';
+        @apply absolute top-0 bottom-0 w-[15vw] z-10 pointer-events-none;
+    }
+
+    .trust-strip::before {
+        @apply left-0 bg-gradient-to-r from-[#040b06] to-transparent;
+    }
+
+    .trust-strip::after {
+        @apply right-0 bg-gradient-to-l from-[#040b06] to-transparent;
     }
 
     .trust-track {
-        @apply flex gap-8 items-center whitespace-nowrap;
-        animation: marquee 28s linear infinite;
-        width: max-content;
+        @apply flex gap-10 items-center whitespace-nowrap w-max;
+        animation: scrollText 25s linear infinite;
+    }
+
+    .trust-track:hover {
+        animation-play-state: paused;
     }
 
     .trust-track span {
-        @apply text-white/40 text-sm font-medium;
+        @apply text-white/25 text-base font-black tracking-[5px] uppercase transition-all duration-500 ease-out cursor-default;
+    }
+
+    .trust-track span:hover {
+        @apply text-white;
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
     }
 
     .trust-dot {
-        @apply text-green/60 text-xs;
+        @apply text-green/50 text-[10px] transition-all duration-500 ease-out;
+        filter: drop-shadow(0 0 8px var(--green));
+    }
+
+    .trust-track:hover .trust-dot {
+        @apply text-green;
+    }
+
+    @keyframes scrollText {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-50%);
+        }
     }
 
     /* ── ABOUT / BENTO ── */
@@ -395,7 +627,8 @@
     }
 
     .bento-main {
-        @apply md:col-span-2 lg:col-span-2 bg-dark-card/40 backdrop-blur-xl border border-white/5 rounded-3xl p-8 md:p-10 flex flex-col gap-5 shadow-2xl relative overflow-hidden;
+        @apply md:col-span-2 lg:col-span-2 backdrop-blur-xl border border-white/5 rounded-3xl p-8 md:p-10 flex flex-col gap-5 shadow-2xl relative overflow-hidden;
+        background: radial-gradient(circle at top right, rgba(0, 95, 2, 0.2) 0%, rgba(12, 26, 17, 0.6) 100%);
     }
 
     .bento-main p {
@@ -495,7 +728,7 @@
 
     .climate-inner {
         @apply py-20 md:py-28 relative overflow-hidden;
-        background: radial-gradient(circle at bottom right, rgba(16, 185, 129, 0.15) 0%, transparent 60%), linear-gradient(135deg, #042417 0%, #010a05 100%);
+        background: radial-gradient(circle at bottom right, rgba(0, 95, 2, 0.3) 0%, transparent 60%), linear-gradient(135deg, #09150d 0%, #040b06 100%);
     }
 
     .climate-content {
@@ -520,7 +753,8 @@
     }
 
     .cta-inner {
-        @apply bg-dark-card/40 backdrop-blur-2xl border border-white/5 rounded-[2.5rem] p-10 md:p-16 text-center flex flex-col items-center gap-6 shadow-2xl overflow-hidden relative;
+        @apply backdrop-blur-2xl border border-white/5 rounded-[2.5rem] p-10 md:p-16 text-center flex flex-col items-center gap-6 shadow-2xl overflow-hidden relative;
+        background: radial-gradient(circle at 50% 0%, rgba(0, 95, 2, 0.25) 0%, rgba(12, 26, 17, 0.6) 80%);
     }
 
     .cta-inner h2 {
@@ -538,7 +772,7 @@
     /* ── PAGE HERO ── */
     .page-hero {
         @apply pt-36 pb-20 md:pt-40 md:pb-24 bg-dark-bg relative;
-        background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(16, 185, 129, 0.1) 0%, transparent 80%), #020604;
+        background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(0, 95, 2, 0.3) 0%, transparent 80%), #040b06;
     }
 
     .page-hero-content {
