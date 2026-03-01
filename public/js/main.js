@@ -142,34 +142,128 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =====================
-  // SERVICES NAV ACTIVE
+  // SERVICES NAV — PREMIUM
   // =====================
-  const svcNavLinks = document.querySelectorAll('.svc-nav-link');
-  if (svcNavLinks.length) {
-    const sections = document.querySelectorAll('.service-category');
+  const svcNavBar = document.getElementById('servicesNavBar');
+  const svcNavTrack = document.getElementById('servicesNavTrack');
+  const svcPillSlider = document.getElementById('svcPillSlider');
+  const svcUnderline = document.getElementById('svcUnderlineSlider');
+  const svcNavLinks = svcNavTrack ? svcNavTrack.querySelectorAll('.svc-nav-link') : [];
+  const svcSections = document.querySelectorAll('.service-category');
+
+  if (svcNavBar && svcNavLinks.length && svcSections.length) {
+
+    let svcActiveIndex = -1;
+    let isClickScrolling = false;
+
+    // --- Sticky detection ---
+    function checkSticky() {
+      if (!svcNavBar) return;
+      const rect = svcNavBar.getBoundingClientRect();
+      const stuck = rect.top <= 77;
+      svcNavBar.classList.toggle('is-stuck', stuck);
+    }
+    window.addEventListener('scroll', checkSticky, { passive: true });
+    checkSticky();
+
+    // --- Pill + underline slider positioning ---
+    function positionSliders(link) {
+      if (!link || !svcPillSlider || !svcUnderline || !svcNavTrack) return;
+      const trackRect = svcNavTrack.getBoundingClientRect();
+      const linkRect = link.getBoundingClientRect();
+
+      const offsetLeft = linkRect.left - trackRect.left;
+      const width = linkRect.width;
+      const pillPad = 4;
+
+      svcPillSlider.style.width = (width + pillPad * 2) + 'px';
+      svcPillSlider.style.transform = 'translateX(' + (offsetLeft - pillPad) + 'px)';
+      svcPillSlider.classList.add('visible');
+
+      const underPad = 12;
+      svcUnderline.style.width = (width - underPad * 2) + 'px';
+      svcUnderline.style.transform = 'translateX(' + (offsetLeft + underPad) + 'px)';
+      svcUnderline.classList.add('visible');
+    }
+
+    // --- Set active tab ---
+    function setActiveTab(index, scrollIntoView) {
+      if (index === svcActiveIndex) return;
+      svcActiveIndex = index;
+      svcNavLinks.forEach((l, i) => {
+        l.classList.toggle('active', i === index);
+      });
+      const activeLink = svcNavLinks[index];
+      if (activeLink) {
+        positionSliders(activeLink);
+        if (scrollIntoView) centerActiveTab(activeLink);
+      }
+    }
+
+    // --- Center active tab in scrollable container (mobile) ---
+    function centerActiveTab(link) {
+      const inner = document.querySelector('.services-nav-inner');
+      if (!inner) return;
+      const innerRect = inner.getBoundingClientRect();
+      const linkRect = link.getBoundingClientRect();
+      const scrollTarget = inner.scrollLeft + (linkRect.left - innerRect.left) - (innerRect.width / 2) + (linkRect.width / 2);
+      inner.scrollTo({ left: scrollTarget, behavior: 'smooth' });
+    }
+
+    // --- Intersection Observer for scroll-sync ---
     const svcObserver = new IntersectionObserver((entries) => {
+      if (isClickScrolling) return;
+      let bestEntry = null;
+      let bestRatio = 0;
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const id = entry.target.id;
-          svcNavLinks.forEach(l => {
-            l.classList.toggle('active', l.getAttribute('href') === `#${id}`);
-          });
+        if (entry.isIntersecting && entry.intersectionRatio > bestRatio) {
+          bestRatio = entry.intersectionRatio;
+          bestEntry = entry;
         }
       });
-    }, { threshold: 0.2, rootMargin: '-80px 0px -60% 0px' });
-    sections.forEach(s => svcObserver.observe(s));
+      if (bestEntry) {
+        const idx = parseInt(bestEntry.target.getAttribute('data-svc-index'), 10);
+        if (!isNaN(idx)) setActiveTab(idx, true);
+      }
+    }, {
+      threshold: [0.1, 0.25, 0.4],
+      rootMargin: '-100px 0px -55% 0px'
+    });
+    svcSections.forEach(s => svcObserver.observe(s));
 
-    // Smooth scroll
-    svcNavLinks.forEach(link => {
+    // --- Click handler: smooth scroll + pill animation ---
+    svcNavLinks.forEach((link, i) => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
-        const target = document.querySelector(link.getAttribute('href'));
-        if (target) {
-          const offset = 140;
-          const top = target.getBoundingClientRect().top + window.scrollY - offset;
-          window.scrollTo({ top, behavior: 'smooth' });
-        }
+        const targetId = link.getAttribute('href');
+        const target = document.querySelector(targetId);
+        if (!target) return;
+
+        isClickScrolling = true;
+        setActiveTab(i, true);
+
+        const offset = 160;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+
+        setTimeout(() => { isClickScrolling = false; }, 900);
       });
+    });
+
+    // --- Recalculate slider on resize ---
+    let svcResizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(svcResizeTimer);
+      svcResizeTimer = setTimeout(() => {
+        if (svcActiveIndex >= 0 && svcNavLinks[svcActiveIndex]) {
+          positionSliders(svcNavLinks[svcActiveIndex]);
+        }
+      }, 100);
+    });
+
+    // --- Initial state: activate first visible section ---
+    requestAnimationFrame(() => {
+      setActiveTab(0, false);
     });
   }
 
@@ -252,6 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // SMOOTH SCROLL ANCHORS
   // =====================
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    if (anchor.classList.contains('svc-nav-link')) return;
     anchor.addEventListener('click', (e) => {
       const target = document.querySelector(anchor.getAttribute('href'));
       if (target) {

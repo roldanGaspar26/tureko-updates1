@@ -13,6 +13,8 @@ module.exports = {
                     light: '#427A43', // Soft muted green
                     pale: '#F2E3BB', // Cream/Sand
                     dark: '#004001', // Even deeper green for active states
+                    accent: '#22c55e', // Bright green for glows/accents on dark bg
+                    vivid: '#10b981', // Emerald for active states and high-visibility
                 },
                 forest: '#003301',
                 earth: '#427A43',
@@ -82,7 +84,7 @@ module.exports = {
                 'card': '0 4px 30px rgba(0,0,0,0.2), 0 1px 3px rgba(0,0,0,0.1)',
                 'card-hover': '0 12px 60px rgba(0,0,0,0.4)',
                 'nav': '0 4px 40px rgba(0,0,0,0.6)',
-                'glow': '0 0 50px rgba(0, 95, 2, 0.2)', // using #005F02
+                'glow': '0 0 50px rgba(34, 197, 94, 0.15)',
                 'btn': '0 6px 20px rgba(0, 64, 1, 0.4)', // using green.dark
                 'btn-primary-hover': '0 8px 30px rgba(0, 95, 2, 0.4)',
                 'btn-outline-hover': '0 8px 30px rgba(255,255,255,0.1)',
