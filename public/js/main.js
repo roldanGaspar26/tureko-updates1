@@ -78,11 +78,29 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =====================
+  // SERVICES NAV HORIZONTAL SCROLL
+  // =====================
+  const leftBtn = document.querySelector('.left-scroll-btn');
+  const rightBtn = document.querySelector('.right-scroll-btn');
+  const navWrapper = document.querySelector('.nav-links-wrapper');
+
+  if (leftBtn && rightBtn && navWrapper) {
+    leftBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      navWrapper.scrollBy({ left: -250, behavior: 'smooth' });
+    });
+    rightBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      navWrapper.scrollBy({ left: 250, behavior: 'smooth' });
+    });
+  }
+
+  // =====================
   // SERVICES NAV ACTIVE
   // =====================
-  const svcNavLinks = document.querySelectorAll('.svc-nav-link');
+  const svcNavLinks = document.querySelectorAll('.svc-nav-link, .premium-svc-link');
   if (svcNavLinks.length) {
-    const sections = document.querySelectorAll('.service-category');
+    const sections = document.querySelectorAll('.service-category, .premium-service-category');
     const svcObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -213,6 +231,42 @@ document.addEventListener('DOMContentLoaded', () => {
       servicesGrid.classList.toggle('expanded');
       servicesToggle.classList.toggle('expanded');
       toggleLabel.textContent = isExpanded ? 'View All Services' : 'View Less';
+    });
+  }
+
+  // =====================
+  // BACK TO TOP BUTTON
+  // =====================
+  const backToTopBtn = document.getElementById('backToTop');
+  const progressFill = document.querySelector('.back-to-top-fill');
+
+  if (backToTopBtn) {
+    const circumference = 2 * Math.PI * 20; // r = 20
+
+    function updateBackToTop() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = docHeight > 0 ? scrollTop / docHeight : 0;
+
+      // Show / hide
+      if (scrollTop > 300) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
+
+      // Update progress ring
+      if (progressFill) {
+        const offset = circumference - (scrollPercent * circumference);
+        progressFill.style.strokeDashoffset = offset;
+      }
+    }
+
+    window.addEventListener('scroll', updateBackToTop, { passive: true });
+    updateBackToTop();
+
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 

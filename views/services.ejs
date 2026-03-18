@@ -1,43 +1,62 @@
 <%- include('partials/header') %>
 
-<section class="page-hero">
-  <div class="container">
-    <div class="page-hero-content reveal">
-      <span class="section-label">What We Offer</span>
-      <h1>Our Services</h1>
-      <p>Five integrated advisory divisions. Forty-five specialized services. One purpose - to make sustainability the foundation of your business.</p>
+<section class="premium-services-hero dark-values text-center">
+  <div class="values-bg-text">SERVICES</div>
+  <div class="container relative z-10">
+    <div class="section-header reveal" style="text-align: center; max-width: 900px; margin: 0 auto; padding-top: 100px; padding-bottom: 60px;">
+      <span class="section-label gold-gradient-text" style="font-size: 14px; letter-spacing: 4px;">What We Offer</span>
+      <h2><span class="gold-gradient-text bold-emphasis" style="font-size: clamp(48px, 6vw, 72px); line-height: 1;">Our Core Services</span></h2>
+      <p style="color: rgba(255,255,255,0.8); max-width: 700px; margin: 24px auto 0; font-size: 18px; line-height: 1.8;">Five integrated advisory divisions. Forty-five specialized services. One purpose to make sustainability the foundation of your business.</p>
     </div>
   </div>
 </section>
 
-<section class="services-nav-bar">
-  <div class="container">
-    <div class="services-nav-links">
+<!-- Sticky In-Page Navigation -->
+<section class="premium-services-nav sticky-nav">
+  <div class="container" style="position: relative;">
+    <button class="nav-scroll-btn left-scroll-btn" aria-label="Scroll left">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <div class="nav-links-wrapper">
       <% services.forEach(cat => { %>
-        <a href="#<%= cat.id %>" class="svc-nav-link"><%= cat.letter %>. <%= cat.category %></a>
+        <a href="#<%= cat.id %>" class="premium-svc-link transition-all hover:-translate-y-1">
+          <div class="svc-letter-icon"><%= cat.letter %></div> 
+          <span class="svc-text"><%= cat.category %></span>
+        </a>
       <% }) %>
     </div>
+    <button class="nav-scroll-btn right-scroll-btn" aria-label="Scroll right">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </button>
   </div>
 </section>
 
-<div class="services-page">
-  <% services.forEach((cat, catIdx) => { %>
-  <section class="service-category" id="<%= cat.id %>">
-    <div class="container">
-      <div class="category-header reveal">
-        <div class="cat-letter"><%= cat.letter %></div>
+<div class="services-content-wrapper">
+  <% services.forEach((cat, catIdx) => { 
+      const isGreen = catIdx % 2 !== 0; 
+      const sectionClass = isGreen ? 'bg-green' : 'bg-cream';
+      const headingClass = isGreen ? 'light-gold-text' : 'gold-gradient-text bold-emphasis';
+      const textClass = isGreen ? 'text-white' : 'text-gray';
+  %>
+  <section class="premium-service-category <%= sectionClass %>" id="<%= cat.id %>">
+    <div class="container relative">
+      <div class="category-header-flex reveal">
+        <div class="cat-letter-badge <%= isGreen ? 'badge-light' : 'badge-dark' %>">
+          <span class="<%= isGreen ? 'gold-gradient-text' : 'light-gold-text' %>"><%= cat.letter %></span>
+        </div>
         <div class="cat-info">
-          <span class="section-label">Division <%= cat.letter %></span>
-          <h2><%= cat.category %></h2>
+          <span class="section-label <%= headingClass %>" style="font-size: 14px;">Division <%= cat.letter %></span>
+          <h2 class="<%= headingClass %>" style="font-size: clamp(32px, 4vw, 48px); line-height: 1.1;"><%= cat.category %></h2>
         </div>
       </div>
-      <div class="services-grid">
+      
+      <div class="premium-services-grid">
         <% cat.items.forEach((item, i) => { %>
-        <div class="service-card reveal" style="--delay: <%= i * 50 %>ms">
-          <div class="service-card-num"><%= String(i + 1).padStart(2, '0') %></div>
-          <h3><%= item.name %></h3>
-          <p><%= item.description %></p>
-          <a href="/quote" class="service-card-cta">Inquire →</a>
+        <div class="premium-service-card reveal <%= isGreen ? 'card-dark-glass' : 'card-light-glass' %>" style="--delay: <%= i * 50 %>ms">
+          <div class="service-card-num huge-num <%= headingClass %>" style="font-size: 64px; margin-bottom: 20px;"><%= String(i + 1).padStart(2, '0') %></div>
+          <h3 class="<%= headingClass %>" style="font-size: 22px; font-family: var(--font-serif); margin-bottom: 16px;"><%= item.name %></h3>
+          <p class="<%= textClass %>" style="line-height: 1.7; font-size: 16px; flex-grow: 1;"><%= item.description %></p>
+          <a href="/quote" class="service-card-cta <%= isGreen ? 'light-gold-text' : 'bold-emphasis' %>" style="font-weight: 700; margin-top: 24px; display: inline-block;">Inquire &rarr;</a>
         </div>
         <% }) %>
       </div>
@@ -46,15 +65,17 @@
   <% }) %>
 </div>
 
-<section class="section cta-section">
-  <div class="container">
+<!-- STRATEGIC CTA -->
+<section class="section premium-cta">
+  <div class="cta-mesh-bg"></div>
+  <div class="container relative z-10">
     <div class="cta-inner reveal">
-      <span class="section-label">Get Started</span>
-      <h2>Need a Custom Sustainability Strategy?</h2>
-      <p>Every business is unique. Contact Tureko and we'll design a service package aligned with your specific environmental goals, operational reality, and industry context.</p>
-      <div class="cta-actions">
-        <a href="/quote" class="btn-primary">Request a Quote</a>
-        <a href="/careers" class="btn-outline">Join Our Team</a>
+      <span class="section-label gold-gradient-text" style="font-size: 14px;">Get Started</span>
+      <h2 class="cta-title">Need a Custom <br /><span class="gold-gradient-text bold-emphasis">Sustainability Strategy?</span></h2>
+      <p class="cta-subtitle">Every business is unique. Contact Tureko and we'll design a service package aligned with your specific environmental goals, operational reality, and industry context.</p>
+      <div class="cta-actions" style="margin-top: 40px;">
+        <a href="/quote" class="btn-primary gold-border-btn">Request a Quote</a>
+        <a href="/careers" class="btn-outline gold-border-btn-outline" style="border-color: rgba(212, 175, 55, 0.4); color: var(--gray-800);">Join Our Team</a>
       </div>
     </div>
   </div>

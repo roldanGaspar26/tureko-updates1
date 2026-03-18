@@ -27,7 +27,7 @@ app.use(
           'https://apis.google.com',
           'https://accounts.google.com',
         ],
-        imgSrc: ["'self'", 'data:', 'https://storage.googleapis.com', 'https://lh3.googleusercontent.com', 'https://*.googleusercontent.com'],
+        imgSrc: ["'self'", 'data:', 'https://storage.googleapis.com', 'https://lh3.googleusercontent.com', 'https://*.googleusercontent.com', 'https://images.unsplash.com'],
         frameSrc: ["'self'", 'https://accounts.google.com', 'https://*.firebaseapp.com', 'https://*.firebaseio.com'],
         connectSrc: [
           "'self'",
