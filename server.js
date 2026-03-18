@@ -9,6 +9,9 @@ const { attachUser } = require('./middleware/auth');
 
 const app = express();
 
+// Trust first proxy (Railway, Render, etc.)
+app.set('trust proxy', 1);
+
 // Initialize Firebase
 initFirebase();
 
