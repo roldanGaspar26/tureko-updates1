@@ -11,8 +11,7 @@
   // =====================
   const config = window.__FIREBASE_CONFIG__;
   if (!config || !config.apiKey) {
-    // No Firebase config on this page — skip auth initialization silently
-    return;
+    console.warn('Firebase config missing. Auth features will not work.');
   }
 
   if (!firebase.apps.length) {
