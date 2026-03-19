@@ -11,7 +11,7 @@
   // =====================
   const config = window.__FIREBASE_CONFIG__;
   if (!config || !config.apiKey) {
-    console.warn('Firebase config missing. Auth features will not work.');
+    return; // Silently skip auth initialization on non-auth pages
   }
 
   if (!firebase.apps.length) {
@@ -53,9 +53,6 @@
   const roleSelector = document.getElementById('roleSelector');
   const signupRoleInput = document.getElementById('signupRole');
 
-  // User dropdown
-  const navUserBtn = document.getElementById('navUserBtn');
-  const navUserDropdown = document.getElementById('navUserDropdown');
 
   // =====================
   // TOAST NOTIFICATION
@@ -424,25 +421,5 @@
     });
   }
 
-  // =====================
-  // NAV USER DROPDOWN TOGGLE
-  // =====================
-  if (navUserBtn && navUserDropdown) {
-    navUserBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      e.preventDefault();
-      navUserDropdown.classList.toggle('open');
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!navUserDropdown.contains(e.target) && !navUserBtn.contains(e.target)) {
-        navUserDropdown.classList.remove('open');
-      }
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') navUserDropdown.classList.remove('open');
-    });
-  }
 
 })();

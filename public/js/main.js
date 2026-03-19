@@ -61,6 +61,30 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =====================
+  // NAV USER DROPDOWN TOGGLE
+  // =====================
+  const navUserBtn = document.getElementById('navUserBtn');
+  const navUserDropdown = document.getElementById('navUserDropdown');
+
+  if (navUserBtn && navUserDropdown) {
+    navUserBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      navUserDropdown.classList.toggle('open');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!navUserDropdown.contains(e.target) && !navUserBtn.contains(e.target)) {
+        navUserDropdown.classList.remove('open');
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') navUserDropdown.classList.remove('open');
+    });
+  }
+
+  // =====================
   // REVEAL ON SCROLL
   // =====================
   const reveals = document.querySelectorAll('.reveal');
